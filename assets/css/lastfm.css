@@ -20,9 +20,9 @@ $globalBorderRadius: 3px;
 
   .nowplayingcard {
     min-width: 200px;
-    max-width: 20%;
-    margin: 0 auto;
-    margin-top: 5%;
+    max-width: 100%;
+    margin-left: -3px;
+    margin-bottom: 25px;
     font-family: $globalFontFamily;
     font-size: $globalFontSize;
 
