@@ -36,7 +36,15 @@ i {
 }
 
 a {
+  color: white;
+  text-decoration: none;
   text-decoration-color: #f27380;
+}
+
+a:link {
+  color: white;
+  background-color: transparent;
+  text-decoration: none;
 }
 
 .background {
