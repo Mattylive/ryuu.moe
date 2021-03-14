@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0"/>
+        <title>Crow Ciphers</title>
+        <style>
+            body {margin: 5% auto; background: #f2f2f2; color: #444444; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.8; text-shadow: 0 1px 0 #ffffff; max-width: 73%;}
+            code {background: white;}
+            a {border-bottom: 1px solid #444444; color: #444444; text-decoration: none;}
+            a:hover {border-bottom: 0;}
+            .flex { display: flex; justify-content: space-between; }
+            .flex > * {margin: 4px; height: 3em ;}
+            #crow_plaintext, #crow_ciphertext { flex: 45%; }
+            #vige_plaintext, #vige_ciphertext { flex: 35%; }
+            #vige_key { flex: 20%; }
+            textarea { font-size: 16px; }
+            table { font-size: 18px; border-collapse: collapse; }
+            td, th { text-align: center; padding: 3px; border: 0px solid }
+            td { width: 1em }
+            #crow_table td { border-left-width: 1px }
+            #vige_table td, #vige_table tr { border-top-width: 1px; }
+            .tg-46ru{background-color:#96fffb}
+            .tg-smvl{background-color:#fd6864}
+            .tg-ncd7{background-color:#ffffc7}
+            .tg-xkfo{background-color:#9698ed}
+            footer p {font-size: 10pt; }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Crow Ciphers | Created by @aurathic, all credit goes to him</h1>
+        </header>
+        <!-- Note: throughout the entire website, all instances of 'plaintext' and 'ciphertext' are swapped. -->
+        <h2>Crow Language</h2>
+            <div id="crow_lang" class="flex"> 
+                <textarea id="crow_plaintext" placeholder="Ciphertext (e.g. 'hiwtwxtls')" onInput="encodeCrow()"></textarea>
+                <textarea id="crow_ciphertext" placeholder="Plaintext (e.g. 'iranandnow')" onInput="decodeCrow()"></textarea>
+            </div>
+        <h2>Vigenère Cipher</h2>
+            <div id="vige_ciph" class="flex">
+                <textarea id="vige_plaintext" placeholder="Ciphertext (e.g. '30781354841')" onInput="encodeVigenere()"></textarea>
+                <textarea id="vige_key" placeholder="Key (e.g. 'crow')" onInput="changeVigenereKey()"></textarea>
+                <textarea id="vige_ciphertext" placeholder="Plaintext (e.g. 'forotherkin')" onInput="decodeVigenere()"></textarea>
+            </div>
+        <h2>How They Work</h2>
+        <h3>Crow Language</h3>
+        <p>Crow Language is a <strong>monoalphabetic substitution cipher</strong>, which means that every letter in the <em>plaintext</em> (the original, non-encoded message) is substituted with one specific letter in the cipher 'alphabet', resulting in the <em>ciphertext</em> (the encoded message). For Crow language, the 'alphabet' is:</p>
+        <table id="crow_table">
+            <tr>
+                <th>Ciphertext Alphabet</th>
+                <td>A</td>
+                <td>B</td>
+                <td>C</td>
+                <td>D</td>
+                <td>E</td>
+                <td>F</td>
+                <td>G</td>
+                <td>H</td>
+                <td>I</td>
+                <td>J</td>
+                <td>K</td>
+                <td>L</td>
+                <td>M</td>
+                <td>N</td>
+                <td>O</td>
+                <td>P</td>
+                <td>Q</td>
+                <td>R</td>
+                <td>S</td>
+                <td>T</td>
+                <td>U</td>
+                <td>V</td>
+                <td>W</td>
+                <td>X</td>
+                <td>Y</td>
+                <td>Z</td>
+            </tr>
+            <tr>
+                <th>Plaintext Alphabet</th>
+                <td>S</td>
+                <td>F</td>
+                <td>T</td>
+                <td>Z</td>
+                <td>L</td>
+                <td>Q</td>
+                <td>U</td>
+                <td>I</td>
+                <td>R</td>
+                <td>V</td>
+                <td>Y</td>
+                <td>O</td>
+                <td>J</td>
+                <td>C</td>
+                <td>E</td>
+                <td>X</td>
+                <td>M</td>
+                <td>H</td>
+                <td>W</td>
+                <td>N</td>
+                <td>P</td>
+                <td>B</td>
+                <td>A</td>
+                <td>D</td>
+                <td>K</td>
+                <td>G</td>
+            </tr>
+        </table>
+        <p> So if you wanted to encode "CROW", you would go through each letter of "CROW" in order and find the associated letter - 'C' becomes 'N', 'R' becomes 'I', 'O' becomes 'L' and 'W' becomes 'S', leaving you with a ciphertext of "NILS".</p>
+        <p> If you want to <em>decode</em> a message, you follow the same process, except translating from the letters in the ciphertext alphabet to the letters in the plaintext alphabet. So 'N' decodes to 'C', 'I' decodes to 'R', and so on.</p>  
+        <h3>Vigenère Cipher</h3>
+        <p> The "Vigenère cipher" used in <em>Catastrophe Crow!</em> is significantly different than the normal version. (It is probably more accurately described as a version of the variant Beaufort cipher with the <em>tabula recta</em> replaced with a special table, but it is most commonly referred to as a Vigenère cipher in the community.) </p>
+        <p> To use this cipher, you need a plaintext (as explained above) and a <em>key</em>, which is another phrase used in encoding. You also need the following table: </p> 
+        <table id="vige_table">
+            <thead>
+              <tr>
+                <th class="tg-0lax"></th>
+                <th class="tg-0lax">A</th>
+                <th class="tg-0lax">B</th>
+                <th class="tg-0lax">C</th>
+                <th class="tg-0lax">D</th>
+                <th class="tg-0lax">E</th>
+                <th class="tg-0lax">F</th>
+                <th class="tg-0lax">G</th>
+                <th class="tg-0lax">H</th>
+                <th class="tg-0lax">I</th>
+                <th class="tg-0lax">J</th>
+                <th class="tg-0lax">K</th>
+                <th class="tg-0lax">L</th>
+                <th class="tg-0lax">M</th>
+                <th class="tg-0lax">N</th>
+                <th class="tg-0lax">O</th>
+                <th class="tg-0lax">P</th>
+                <th class="tg-0lax">Q</th>
+                <th class="tg-0lax">R</th>
+                <th class="tg-0lax">S</th>
+                <th class="tg-0lax">T</th>
+                <th class="tg-0lax">U</th>
+                <th class="tg-0lax">V</th>
+                <th class="tg-0lax">W</th>
+                <th class="tg-0lax">X</th>
+                <th class="tg-0lax">Y</th>
+                <th class="tg-0lax">Z</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="tg-0lax">0</th>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">K</td>
+                <td class="tg-0lax">F</td>
+                <td class="tg-0lax">B</td>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">M</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">B</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">U</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">L</td>
+                <td class="tg-0lax">M</td>
+              </tr>
+              <tr>
+                <th class="tg-0lax">1</th>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">J</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">U</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">P</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">G</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">Z</td>
+                <td class="tg-0lax">U</td>
+              </tr>
+              <tr>
+                <th class="tg-0lax">2</th>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">G</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">Q</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">W</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">U</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">B</td>
+                <td class="tg-0lax">U</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">L</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">H</td>
+              </tr>
+              <tr>
+                <th class="tg-0lax">3</th>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">F</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">H</td>
+                <td class="tg-0lax">F</td>
+                <td class="tg-0lax">F</td>
+                <td class="tg-0lax">M</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">Y</td>
+                <td class="tg-0lax">M</td>
+                <td class="tg-0lax">L</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">F</td>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">H</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">U</td>
+              </tr>
+              <tr>
+                <th class="tg-0lax">4</th>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">H</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">H</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">V</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">M</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">L</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">P</td>
+                <td class="tg-0lax">J</td>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">I</td>
+              </tr>
+              <tr>
+                <th class="tg-0lax">5</th>
+                <td class="tg-0lax">L</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">M</td>
+                <td class="tg-0lax">U</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">M</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">H</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">P</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">L</td>
+                <td class="tg-0lax">W</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">G</td>
+                <td class="tg-0lax">K</td>
+                <td class="tg-0lax">T</td>
+              </tr>
+              <tr>
+                <th class="tg-0lax">6</th>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">W</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">M</td>
+                <td class="tg-0lax">Z</td>
+                <td class="tg-0lax">L</td>
+                <td class="tg-0lax">J</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">M</td>
+                <td class="tg-0lax">L</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">P</td>
+                <td class="tg-0lax">H</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">Y</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">H</td>
+              </tr>
+              <tr>
+                <th class="tg-0lax">7</th>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">H</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">H</td>
+                <td class="tg-0lax">L</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">M</td>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">U</td>
+                <td class="tg-0lax">M</td>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">F</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">E</td>
+              </tr>
+              <tr>
+                <th class="tg-0lax">8</th>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">G</td>
+                <td class="tg-0lax">K</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">Y</td>
+                <td class="tg-0lax">H</td>
+                <td class="tg-0lax">L</td>
+                <td class="tg-0lax">K</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">H</td>
+                <td class="tg-0lax">Q</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">W</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">Y</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">O</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">B</td>
+                <td class="tg-0lax">L</td>
+              </tr>
+              <tr>
+                <th class="tg-0lax">9</th>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">N</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">C</td>
+                <td class="tg-0lax">H</td>
+                <td class="tg-0lax">R</td>
+                <td class="tg-0lax">C</td>
+                <td class="tg-0lax">I</td>
+                <td class="tg-0lax">X</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">E</td>
+                <td class="tg-0lax">L</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">D</td>
+                <td class="tg-0lax">Y</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">A</td>
+                <td class="tg-0lax">S</td>
+                <td class="tg-0lax">T</td>
+                <td class="tg-0lax">U</td>
+                <td class="tg-0lax">M</td>
+                <td class="tg-0lax">V</td>
+              </tr>
+            </tbody>
+        </table>
+        <p> Let's follow through the process with an example plaintext "TEAM" with the key "HI".</p> 
+        <p> First, write down the key repeated until it has the same length as the plaintext. In this case, we need to repeat the key twice in order for it to be long enough.</p> 
+        <table id="vige_example_table_1">
+            <tr class="tg-46ru">
+                <th>Plaintext</th>
+                <td>T</td><td>E</td><td>A</td><td>M</td>
+            </tr>
+            <tr class="tg-smvl">
+                <th>Key</th>
+                <td>H</td><td>I</td><td>H</td><td>I</td>
+            </tr>
+        </table> 
+        <p> Then, for each letter in the key and plaintext, you first find the column associated with that letter, then find a row of that column which contains the letter in the plaintext. For example, the first letter of the key is 'H' and the first letter in the plaintext is 'T', so we look at the column with the 'H' heading (the eight column), and see that 'T' is in the row with the label '7' - so the first digit of the decoded message is '7'.
+        </p>
+        <table id="vige_example_table_2">
+            <thead>
+              <tr>
+                <th class="tg-0pky"></th>
+                <th class="tg-0pky">A</th>
+                <th class="tg-0pky">B</th>
+                <th class="tg-0pky">C</th>
+                <th class="tg-0pky">D</th>
+                <th class="tg-0pky">E</th>
+                <th class="tg-0pky">F</th>
+                <th class="tg-0pky">G</th>
+                <th class="tg-smvl">H</th>
+                <th class="tg-0pky">I</th>
+                <th class="tg-0pky">J</th>
+                <th class="tg-0pky">K</th>
+                <th class="tg-0pky">L</th>
+                <th class="tg-0pky">M</th>
+                <th class="tg-0pky">N</th>
+                <th class="tg-0pky">O</th>
+                <th class="tg-0pky">P</th>
+                <th class="tg-0pky">Q</th>
+                <th class="tg-0pky">R</th>
+                <th class="tg-0pky">S</th>
+                <th class="tg-0pky">T</th>
+                <th class="tg-0pky">U</th>
+                <th class="tg-0pky">V</th>
+                <th class="tg-0pky">W</th>
+                <th class="tg-0pky">X</th>
+                <th class="tg-0pky">Y</th>
+                <th class="tg-0pky">Z</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="tg-0pky">0</th>
+                <td class="tg-0pky">R</td>
+                <td class="tg-0pky">S</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">K</td>
+                <td class="tg-0pky">F</td>
+                <td class="tg-0pky">B</td>
+                <td class="tg-0pky">R</td>
+                <td class="tg-ncd7">S</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">M</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">R</td>
+                <td class="tg-0pky">B</td>
+                <td class="tg-0pky">S</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">N</td>
+                <td class="tg-0pky">N</td>
+                <td class="tg-0pky">O</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">U</td>
+                <td class="tg-0pky">S</td>
+                <td class="tg-0pky">L</td>
+                <td class="tg-0pky">M</td>
+              </tr>
+              <tr>
+                <th class="tg-0pky">1</th>
+                <td class="tg-0pky">O</td>
+                <td class="tg-0pky">J</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">U</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">O</td>
+                <td class="tg-ncd7">S</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">R</td>
+                <td class="tg-0pky">O</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">N</td>
+                <td class="tg-0pky">P</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">G</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">N</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">Z</td>
+                <td class="tg-0pky">U</td>
+              </tr>
+              <tr>
+                <th class="tg-0pky">2</th>
+                <td class="tg-0pky">O</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">G</td>
+                <td class="tg-0pky">D</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">S</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-ncd7">E</td>
+                <td class="tg-0pky">Q</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">D</td>
+                <td class="tg-0pky">W</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">N</td>
+                <td class="tg-0pky">U</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">O</td>
+                <td class="tg-0pky">B</td>
+                <td class="tg-0pky">U</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">R</td>
+                <td class="tg-0pky">O</td>
+                <td class="tg-0pky">L</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">H</td>
+              </tr>
+              <tr>
+                <th class="tg-0pky">3</th>
+                <td class="tg-0pky">S</td>
+                <td class="tg-0pky">D</td>
+                <td class="tg-0pky">F</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">N</td>
+                <td class="tg-0pky">H</td>
+                <td class="tg-0pky">F</td>
+                <td class="tg-ncd7">F</td>
+                <td class="tg-0pky">M</td>
+                <td class="tg-0pky">O</td>
+                <td class="tg-0pky">Y</td>
+                <td class="tg-0pky">M</td>
+                <td class="tg-0pky">L</td>
+                <td class="tg-0pky">N</td>
+                <td class="tg-0pky">F</td>
+                <td class="tg-0pky">R</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">H</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">O</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">S</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">N</td>
+                <td class="tg-0pky">U</td>
+              </tr>
+              <tr>
+                <th class="tg-0pky">4</th>
+                <td class="tg-0pky">R</td>
+                <td class="tg-0pky">H</td>
+                <td class="tg-0pky">D</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">H</td>
+                <td class="tg-ncd7">O</td>
+                <td class="tg-0pky">V</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">R</td>
+                <td class="tg-0pky">M</td>
+                <td class="tg-0pky">D</td>
+                <td class="tg-0pky">O</td>
+                <td class="tg-0pky">O</td>
+                <td class="tg-0pky">D</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">L</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">P</td>
+                <td class="tg-0pky">J</td>
+                <td class="tg-0pky">R</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">R</td>
+                <td class="tg-0pky">I</td>
+              </tr>
+              <tr>
+                <th class="tg-0pky">5</th>
+                <td class="tg-0pky">L</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">M</td>
+                <td class="tg-0pky">U</td>
+                <td class="tg-0pky">O</td>
+                <td class="tg-0pky">M</td>
+                <td class="tg-0pky">D</td>
+                <td class="tg-ncd7">A</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">H</td>
+                <td class="tg-0pky">S</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">D</td>
+                <td class="tg-0pky">P</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">L</td>
+                <td class="tg-0pky">W</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">O</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">D</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">G</td>
+                <td class="tg-0pky">K</td>
+                <td class="tg-0pky">T</td>
+              </tr>
+              <tr>
+                <th class="tg-0pky">6</th>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">W</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">N</td>
+                <td class="tg-0pky">M</td>
+                <td class="tg-ncd7">Z</td>
+                <td class="tg-0pky">L</td>
+                <td class="tg-0pky">J</td>
+                <td class="tg-0pky">D</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">M</td>
+                <td class="tg-0pky">L</td>
+                <td class="tg-0pky">S</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">P</td>
+                <td class="tg-0pky">H</td>
+                <td class="tg-0pky">S</td>
+                <td class="tg-0pky">N</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">Y</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">H</td>
+              </tr>
+              <tr>
+                <th class="tg-xkfo">7</th>
+                <td class="tg-ncd7">E</td>
+                <td class="tg-ncd7">D</td>
+                <td class="tg-ncd7">O</td>
+                <td class="tg-ncd7">H</td>
+                <td class="tg-ncd7">N</td>
+                <td class="tg-ncd7">T</td>
+                <td class="tg-ncd7">N</td>
+                <td class="tg-46ru">T</td>
+                <td class="tg-ncd7">A</td>
+                <td class="tg-ncd7">S</td>
+                <td class="tg-ncd7">H</td>
+                <td class="tg-ncd7">L</td>
+                <td class="tg-ncd7">D</td>
+                <td class="tg-ncd7">M</td>
+                <td class="tg-ncd7">R</td>
+                <td class="tg-ncd7">R</td>
+                <td class="tg-ncd7">O</td>
+                <td class="tg-ncd7">U</td>
+                <td class="tg-ncd7">M</td>
+                <td class="tg-ncd7">R</td>
+                <td class="tg-ncd7">F</td>
+                <td class="tg-ncd7">T</td>
+                <td class="tg-ncd7">S</td>
+                <td class="tg-ncd7">E</td>
+                <td class="tg-ncd7">N</td>
+                <td class="tg-ncd7">E</td>
+              </tr>
+              <tr>
+                <th class="tg-0pky">8</th>
+                <td class="tg-0pky">O</td>
+                <td class="tg-0pky">G</td>
+                <td class="tg-0pky">K</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">D</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">Y</td>
+                <td class="tg-ncd7">H</td>
+                <td class="tg-0pky">L</td>
+                <td class="tg-0pky">K</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">H</td>
+                <td class="tg-0pky">Q</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">W</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">S</td>
+                <td class="tg-0pky">Y</td>
+                <td class="tg-0pky">S</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">O</td>
+                <td class="tg-0pky">N</td>
+                <td class="tg-0pky">B</td>
+                <td class="tg-0pky">L</td>
+              </tr>
+              <tr>
+                <th class="tg-0pky">9</th>
+                <td class="tg-0pky">N</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">R</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">N</td>
+                <td class="tg-0pky">S</td>
+                <td class="tg-0pky">C</td>
+                <td class="tg-ncd7">H</td>
+                <td class="tg-0pky">R</td>
+                <td class="tg-0pky">C</td>
+                <td class="tg-0pky">I</td>
+                <td class="tg-0pky">X</td>
+                <td class="tg-0pky">D</td>
+                <td class="tg-0pky">E</td>
+                <td class="tg-0pky">L</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">D</td>
+                <td class="tg-0pky">Y</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">A</td>
+                <td class="tg-0pky">S</td>
+                <td class="tg-0pky">T</td>
+                <td class="tg-0pky">U</td>
+                <td class="tg-0pky">M</td>
+                <td class="tg-0pky">V</td>
+              </tr>
+            </tbody>
+        </table>
+        <p><em>NOTE: Since there are only 10 letters in each column at most, and there are duplicate letters in many columns, not every combination of plaintext and key will be able to produce a message (for example, you can't encode 'G' with key 'H'), and some letters can be encoded multiple ways with certain keys (for example, you can encode plaintext 'S' with key 'H' as either '0' or '1').</em></p>
+        <p>If you repeat this process for the second letters of the key/plaintext, you get '1', with the third letters, you get '5', and the fourth letters are encoded as '3'. So, the ciphertext of the message "TEAM" with key "HI" is "7153".</p>
+        <table id="vige_example_table_3">
+        <tr class="tg-46ru">
+            <th>Plaintext</th>
+            <td>T</td><td>E</td><td>A</td><td>M</td>
+        </tr>
+        <tr class="tg-smvl">
+            <th>Key</th>
+            <td>H</td><td>I</td><td>H</td><td>I</td>
+        </tr>
+        <tr class="tg-xkfo">
+            <th>Ciphertext</th>
+            <td>7</td><td>1</td><td>5</td><td>3</td>
+        </tr>
+        </table> 
+        <p>Decoding a message using this cipher is easier than encoding it - the first letter of the plaintext is the letter in the column of the first letter of the (repeated) key and the row of the first number in the ciphertext, and so on.</p>
+        <footer>
+            <hr>
+            <p>Created for the <em>Catastrophe Crow!</em> ARG. Styling adapted from <a href="https://evenbettermotherfucking.website/">EBMFW</a>.</p>
+        </footer>
+    </body>
+    <script>
+            crow_plain = document.getElementById("crow_plaintext");
+            crow_cipher = document.getElementById("crow_ciphertext");
+            vige_plain = document.getElementById("vige_plaintext");
+            vige_key = document.getElementById("vige_key");
+            vige_cipher = document.getElementById("vige_ciphertext");
+            crow_lang_dict = {
+                "a": "s",
+                "b": "f",
+                "c": "t",
+                "d": "z",
+                "e": "l",
+                "f": "q",
+                "g": "u",
+                "h": "i",
+                "i": "r",
+                "j": "v",
+                "k": "y",
+                "l": "o",
+                "m": "j",
+                "n": "c",
+                "o": "e",
+                "p": "x",
+                "q": "m",
+                "r": "h",
+                "s": "w",
+                "t": "n",
+                "u": "p",
+                "v": "b",
+                "w": "a",
+                "x": "d",
+                "y": "k",
+                "z": "g"
+            };
+            vige_ciph_dict = {
+                "a": ["r", "o", "o", "s", "r", "l", "a", "e", "o", "n"],
+                "b": ["s", "j", "e", "d", "h", "i", "a", "d", "g", "e"],
+                "c": ["a", "t", "g", "f", "d", "m", "e", "o", "k", "r"],
+                "d": ["k", "a", "d", "e", "e", "u", "w", "h", "a", "e"],
+                "e": ["f", "u", "e", "n", "e", "o", "i", "n", "d", "n"],
+                "f": ["b", "i", "s", "h", "i", "m", "n", "t", "i", "s"],
+                "g": ["r", "o", "a", "f", "h", "d", "m", "n", "y", "c"],
+                "h": ["s", "s", "e", "f", "o", "a", "z", "t", "h", "h"],
+                "i": ["i", "e", "q", "m", "v", "e", "l", "a", "l", "r"],
+                "j": ["m", "r", "i", "o", "t", "h", "j", "s", "k", "c"],
+                "k": ["e", "o", "d", "y", "r", "s", "d", "h", "a", "i"],
+                "l": ["r", "e", "w", "m", "m", "a", "e", "l", "h", "x"],
+                "m": ["b", "a", "t", "l", "d", "d", "m", "d", "q", "d"],
+                "n": ["s", "i", "a", "n", "o", "p", "l", "m", "i", "e"],
+                "o": ["e", "n", "n", "f", "o", "e", "s", "r", "t", "l"],
+                "p": ["n", "p", "u", "r", "d", "l", "a", "r", "w", "t"],
+                "q": ["n", "t", "i", "i", "a", "w", "e", "o", "a", "d"],
+                "r": ["o", "g", "o", "h", "i", "t", "p", "u", "e", "y"],
+                "s": ["e", "e", "b", "a", "l", "o", "h", "m", "s", "t"],
+                "t": ["i", "t", "u", "i", "a", "t", "s", "r", "y", "t"],
+                "u": ["t", "i", "e", "o", "p", "a", "n", "f", "s", "a"],
+                "v": ["t", "i", "r", "i", "j", "d", "a", "t", "e", "s"],
+                "w": ["u", "n", "o", "s", "r", "e", "y", "s", "o", "t"],
+                "x": ["s", "e", "l", "a", "i", "g", "i", "e", "n", "u"],
+                "y": ["l", "z", "t", "n", "r", "k", "e", "n", "b", "m"],
+                "z": ["m", "u", "h", "u", "i", "t", "h", "e", "l", "v"] 
+            }
+            //https://stackoverflow.com/a/28191966
+            getKeyByValue = (object, value) => Object.keys(object).find(key => object[key] == value);
+            encodeCrowChar = (x) => 
+                /[a-z]/.test(x) ? crow_lang_dict[x] : 
+                /[A-Z]/.test(x) ? crow_lang_dict[x.toLowerCase()].toUpperCase() :
+                x    
+            decodeCrowChar = (x) => 
+                /[a-z]/.test(x) ? getKeyByValue(crow_lang_dict, x) : 
+                /[A-Z]/.test(x) ? getKeyByValue(crow_lang_dict, x.toLowerCase()).toUpperCase() :
+                x
+            encodeCrow = () => {
+                crow_cipher.value = crow_plain.value.split("")
+                    .map((x) => encodeCrowChar(x)).join("");
+            }
+            decodeCrow = () => {
+                crow_plain.value = crow_cipher.value.split("")
+                    .map((x) => decodeCrowChar(x)).join("");
+            }
+            resetPlaintext = () => {
+            	vige_plain.style["background-color"] = "";
+            	vige_plain.placeholder = "Ciphertext (e.g. '30781354841')";
+            }
+            errorPlaintext = () => {
+            	vige_plain.style["background-color"] = "pink";
+            	vige_plain.placeholder = "Cannot Be Decoded";
+            	vige_plain.value = "";
+            }
+            encodeVigenereChar = (x,i) => 
+                /* /[0-9]/.test(x) ? vige_ciph_dict[vige_key.value[i % vige_key.value.length].toLowerCase()][Number(x)] : x */
+                vige_ciph_dict[vige_key.value[i % vige_key.value.length].toLowerCase()][Number(x)]
+            
+            encodeVigenere = () => {
+                vige_plain.value = vige_plain.value.replace(/[^0-9]/, ""); 
+                resetPlaintext();
+                if(vige_key.value.length > 0) {
+                    vige_cipher.value = vige_plain.value.split("")
+                        .map((x,i) => encodeVigenereChar(x,i))
+                        .join("");
+                }
+            }
+            decodeVigenere = () => {
+                if(vige_key.value.length > 0) {
+                    vige_cipher_str = vige_cipher.value.replace(/[^a-zA-Z]/, "").toLowerCase(); 
+                    console.log(vige_cipher_str);
+                    vige_array = vige_cipher_str.split("").
+                        map((x,i) => vige_ciph_dict
+                            [vige_key.value[i % vige_key.value.length]]
+                             .indexOf(x));
+                    if(vige_array.includes(-1)) {
+                    	errorPlaintext();
+                    } else {
+                    	resetPlaintext();
+                    	vige_plain.value = vige_array.join("");
+                    }
+                }
+            }
+            changeVigenereKey = () => {
+            	vige_key.value = vige_key.value.replace(/[^a-zA-Z]/, "").toLowerCase(); //only letters can be input
+            	vige_plain.value == "" ? 
+            	decodeVigenere() : encodeVigenere();
+            }
+    </script>
+</html>
