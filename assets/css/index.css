@@ -64,13 +64,13 @@ a {
 }
 
 a:link {
-  color: white;
+  color: #ee84f1;
   background-color: transparent;
   text-decoration: none;
 }
 
 a:visited {
-  color: white;
+  color: #ee84f1;
   background-color: transparent;
   text-decoration: none;
 }
