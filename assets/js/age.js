@@ -1,4 +1,4 @@
-var DOB = "January 23, 2006";
+var DOB = "December 15, 2004";
 var millisecondsBetweenDOBAnd1970 = Date.parse(DOB);
 var millisecondsBetweenNowAnd1970 = Date.now();
 var ageInMilliseconds = millisecondsBetweenNowAnd1970-millisecondsBetweenDOBAnd1970;
